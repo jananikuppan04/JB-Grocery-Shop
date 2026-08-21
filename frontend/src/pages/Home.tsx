@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingCart } from 'lucide-react';
+import { ArrowRight, ShoppingCart, MapPin, Clock, Truck, ShieldCheck } from 'lucide-react';
 import api from '../services/api';
 import useCartStore from '../store/cart';
 import useAuthStore from '../store/auth';
@@ -30,21 +30,25 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-green-50 rounded-2xl p-8 md:p-16 mb-12 flex flex-col md:flex-row items-center justify-between">
-        <div className="md:w-1/2 mb-8 md:mb-0">
+      <section className="bg-green-50 rounded-2xl p-8 md:p-16 mb-12 flex flex-col md:flex-row items-center justify-between relative overflow-hidden border border-green-100">
+        <div className="md:w-1/2 mb-8 md:mb-0 z-10">
+          <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-4 border border-green-200">
+            <MapPin className="h-4 w-4 text-green-600 shrink-0" />
+            <span>Delivering in Chennai & Nearby Hubs</span>
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
             Fresh Groceries, <br />
             <span className="text-green-600">Delivered to You</span>
           </h1>
           <p className="text-gray-600 text-lg mb-8 max-w-md">
-            Get the freshest produce, dairy, and pantry staples delivered right to your doorstep in minutes.
+            Get the freshest produce, dairy, and pantry staples delivered right to your doorstep across Chennai in 30 minutes.
           </p>
-          <Link to="/products" className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition font-medium text-lg">
+          <Link to="/products" className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition font-medium text-lg shadow-md">
             Shop Now <ArrowRight className="h-5 w-5" />
           </Link>
         </div>
         <div className="md:w-1/2">
-          {/* Placeholder for hero image */}
+          {/* Hero image */}
           <div className="aspect-video bg-green-200 rounded-xl overflow-hidden shadow-lg relative">
              <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800" alt="Fresh vegetables" className="object-cover w-full h-full" />
           </div>
@@ -66,7 +70,7 @@ export default function Home() {
             >
               <div className="h-16 w-16 mx-auto bg-green-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-green-100 transition">
                 {/* Fallback icon if no image */}
-                <span className="text-2xl">{category.name.charAt(0)}</span>
+                <span className="text-2xl font-bold text-green-700">{category.name.charAt(0)}</span>
               </div>
               <h3 className="font-medium text-gray-800">{category.name}</h3>
             </Link>
@@ -121,6 +125,48 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Location Details & Service Coverage Section */}
+      <section className="mb-12 bg-white rounded-2xl p-8 border border-green-200 shadow-sm">
+        <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
+          <div className="space-y-4 max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full uppercase tracking-wide">
+              <MapPin className="h-3.5 w-3.5 text-green-600" /> Location Details
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900">Serving Across Chennai</h2>
+            <p className="text-gray-600 leading-relaxed">
+              JB Grocery Shop is located in <strong className="text-gray-900">Chennai, Tamil Nadu, India</strong>. We offer fast doorstep delivery of farm-fresh fruits, vegetables, dairy products, and daily household essentials.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700 pt-2">
+              <div className="flex items-center gap-2">
+                <Truck className="h-4 w-4 text-green-600 shrink-0" />
+                <span>Express 30-Min Delivery</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-green-600 shrink-0" />
+                <span>Open 7:00 AM - 10:00 PM Daily</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-green-600 shrink-0" />
+                <span>100% Quality Guaranteed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-green-600 shrink-0" />
+                <span>Chennai Service Zone</span>
+              </div>
+            </div>
+          </div>
+          <div className="w-full md:w-80 bg-green-50 p-6 rounded-xl border border-green-100 text-center">
+            <MapPin className="h-10 w-10 text-green-600 mx-auto mb-3" />
+            <h3 className="text-xl font-bold text-gray-900 mb-1">Store Location</h3>
+            <p className="text-sm font-semibold text-green-700 mb-2">Chennai Hub</p>
+            <p className="text-xs text-gray-600 mb-4">Anna Salai, T. Nagar, Adyar, Velachery, Guindy, OMR & all major Chennai regions.</p>
+            <span className="inline-block bg-green-600 text-white text-xs font-semibold px-4 py-2 rounded-full">
+              Active Delivery Zone
+            </span>
+          </div>
         </div>
       </section>
     </div>

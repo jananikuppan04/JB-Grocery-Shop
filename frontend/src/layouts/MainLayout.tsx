@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, LogOut, Package } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Package, MapPin } from 'lucide-react';
 import useAuthStore from '../store/auth';
 import useCartStore from '../store/cart';
 
@@ -26,10 +26,16 @@ const MainLayout = () => {
     <div className="min-h-screen flex flex-col bg-slate-50">
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-green-600 flex items-center gap-2">
-            <Package className="h-8 w-8" />
-            JB Grocery
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="text-2xl font-bold text-green-600 flex items-center gap-2">
+              <Package className="h-8 w-8" />
+              JB Grocery
+            </Link>
+            <div className="hidden sm:flex items-center gap-1.5 text-sm bg-green-50 px-3 py-1.5 rounded-full border border-green-200 text-gray-700">
+              <MapPin className="h-4 w-4 text-green-600" />
+              <span className="font-medium text-gray-800">Deliver to: <span className="font-bold text-green-700">Chennai</span></span>
+            </div>
+          </div>
 
           <nav className="hidden md:flex space-x-8">
             <Link to="/" className="text-gray-600 hover:text-green-600 font-medium">Home</Link>
@@ -80,9 +86,16 @@ const MainLayout = () => {
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Package className="h-6 w-6" /> JB Grocery
+              <Package className="h-6 w-6 text-green-500" /> JB Grocery
             </h3>
-            <p className="text-gray-400">Fresh groceries, delivered to your doorstep. Quality you can trust.</p>
+            <p className="text-gray-400 mb-3">Fresh groceries, delivered to your doorstep. Quality you can trust.</p>
+            <div className="flex items-start gap-2 text-gray-300 text-sm bg-gray-800 p-3 rounded-lg border border-gray-700">
+              <MapPin className="h-4 w-4 text-green-400 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold text-white">Location Details:</p>
+                <p>Chennai, Tamil Nadu, India</p>
+              </div>
+            </div>
           </div>
           <div>
             <h4 className="font-bold mb-4 text-lg">Quick Links</h4>
@@ -102,7 +115,7 @@ const MainLayout = () => {
           </div>
           <div>
             <h4 className="font-bold mb-4 text-lg">Newsletter</h4>
-            <p className="text-gray-400 mb-4">Subscribe for offers and updates.</p>
+            <p className="text-gray-400 mb-4">Subscribe for offers and updates in Chennai.</p>
             <div className="flex">
               <input type="email" placeholder="Your email" className="px-4 py-2 rounded-l-md w-full text-black focus:outline-none" />
               <button className="bg-green-600 px-4 py-2 rounded-r-md hover:bg-green-500">Subscribe</button>
@@ -110,7 +123,7 @@ const MainLayout = () => {
           </div>
         </div>
         <div className="container mx-auto px-4 mt-8 pt-8 border-t border-gray-800 text-center text-gray-500">
-          <p>&copy; {new Date().getFullYear()} JB Grocery Shop. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} JB Grocery Shop - Chennai. All rights reserved.</p>
         </div>
       </footer>
     </div>
