@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  role      String   @default("CUSTOMER") // CUSTOMER or ADMIN
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders    Order[]
+  addresses Address[]
+  reviews   Review[]
+  cart      Cart?
+}
+
+model Address {
+  id        String  @id @default(uuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  street    String
+  city      String
+  state     String
+  zipCode   String
+  isDefault Boolean @default(false)
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  imageUrl    String?
+  products    Product[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  discount    Float    @default(0) // Percentage or flat amount
+  stock       Int      @default(0)
+  minStock    Int      @default(5)
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItems   OrderItem[]
+  cartItems    CartItem[]
+  reviews      Review[]
+  stockHistory StockMovement[]
+}
+
+model StockMovement {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int // Positive for added, negative for removed
+  type      String // IN, OUT, ADJUSTMENT, SALE
+  createdAt DateTime @default(now())
+  note      String?
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(1)
+}
+
+model Order {
+  id            String @id @default(uuid())
+  orderNumber   String @unique
+  userId        String
+  user          User   @relation(fields: [userId], references: [id])
+  status        String @default("PENDING") // PENDING, CONFIRMED, PROCESSING, OUT_FOR_DELIVERY, DELIVERED, CANCELLED
+  totalAmount   Float
+  deliveryFee   Float  @default(0)
+  taxAmount     Float  @default(0)
+  paymentMethod String // COD, CARD
+  paymentStatus String @default("PENDING") // PENDING, COMPLETED, FAILED
+  deliveryAddr  String // Snapshot of address as JSON string
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float // Price at the time of order
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int // 1 to 5
+  comment   String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+}
