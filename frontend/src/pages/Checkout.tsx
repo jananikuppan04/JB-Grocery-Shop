@@ -12,8 +12,8 @@ export default function Checkout() {
 
   const [address, setAddress] = useState({
     street: '',
-    city: '',
-    state: '',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
     zip: ''
   });
 
